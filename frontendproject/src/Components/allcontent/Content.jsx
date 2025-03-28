@@ -5,6 +5,7 @@ import axios from 'axios';
 import useAutoLogout from "../userLogout";
 
 
+const BACKEND_API=import.meta.env.BACKEND_API_URL
 function Content() {
     useAutoLogout();
     const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -24,7 +25,7 @@ function Content() {
             console.log("Logging out... Checking cookies before request:");
             console.log(document.cookie);  // Debugging: Check if cookies exist
     
-            await axios.post("http://localhost:9090/user/logout", {}, { withCredentials: true });
+            await axios.post(`${BACKEND_API}/user/logout`, {}, { withCredentials: true });
     
             localStorage.removeItem("token");
             localStorage.removeItem("userId");

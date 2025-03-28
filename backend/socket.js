@@ -9,9 +9,9 @@ const activeUsers = new Map();
 const initializeSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: "*",
+            origin: ["*","https://sankaliyavivek.github.io/kit/"],
             credentials: true,
-            methods: ["GET", "POST"],
+            methods: ["GET", "POST","PUT","DELETE"],
             allowedHeaders: ["Authorization", "Content-Type"]
         },
         transports: ["websocket", "polling"]

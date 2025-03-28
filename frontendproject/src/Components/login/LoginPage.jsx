@@ -6,6 +6,8 @@ import {io} from 'socket.io-client';
 
 let socket = null; 
 
+const BACKEND_API=import.meta.env.BACKEND_API_URL
+
 
 // const socket = io("http://localhost:9090", {
 //     withCredentials: true,
@@ -27,7 +29,7 @@ function LoginPage() {
 
         try {
             const response = await axios.post(
-                "http://localhost:9090/user/login",
+                `${BACKEND_API}/user/login`,
                 { email, password },
                 { withCredentials: true } // Ensure credentials are sent
             );
@@ -39,7 +41,7 @@ function LoginPage() {
 
                 alert("Login successful!");
 
-                socket = io("http://localhost:9090", {
+                socket = io(`${BACKEND_API}`, {
                     withCredentials: true,
                     transports: ["websocket", "polling"],
                     auth: {

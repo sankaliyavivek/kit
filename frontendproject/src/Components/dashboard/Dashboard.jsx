@@ -4,15 +4,8 @@ import axios from "axios";
 import "../dashboard/dashboardCss.scss";
 import socket from "../../socket";
 
-// const socket = io("http://localhost:9090", {
-//   transports: ["websocket", "polling"],  // Add fallback transport
-//   path: "/socket.io/",
-//   withCredentials: true,
+const BACKEND_API=import.meta.env.BACKEND_API_URL
 
-
-// });
-
-// console.log(socket.connect)
 function Dashboard() {
   const [orders, setOrders] = useState([]);
 
@@ -20,7 +13,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:9090/order/orders");
+        const response = await axios.get(`${BACKEND_API}/order/orders`);
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);

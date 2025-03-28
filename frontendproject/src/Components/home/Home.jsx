@@ -10,6 +10,8 @@ import socket from "../../socket";
 //   transports: ["websocket", "polling"], // Add fallback transport
 // });
 
+const BACKEND_API=import.meta.env.BACKEND_API_URL
+
 
 function Home() {
   const [foodItems, setFoodItems] = useState([]);
@@ -21,7 +23,7 @@ function Home() {
   useEffect(() => {
     fetchCart();
     axios
-      .get("http://localhost:9090/food/getfood")
+      .get(`${BACKEND_API}/food/getfood`)
       .then((response) => setFoodItems(response.data))
       .catch((error) => console.error("Error fetching food:", error));
 
@@ -54,7 +56,7 @@ function Home() {
     }
 
     try {
-      const response = await axios.get(`http://localhost:9090/cart/${userId}`, {
+      const response = await axios.get(`${BACKEND_API}/cart/${userId}`, {
         headers: { "Cache-Control": "no-cache" }, // 🔥 Prevents old cached response
       });
 
@@ -82,7 +84,7 @@ function Home() {
     }
 
     try {
-      const response = await axios.post("http://localhost:9090/cart/add", {
+      const response = await axios.post(`${BACKEND_API}/cart/add` , {
         userId,
         foodId: item._id,
         quantity: 1,
@@ -111,7 +113,7 @@ function Home() {
     }
 
     try {
-      const response = await axios.post("http://localhost:9090/cart/update", {
+      const response = await axios.post(`${BACKEND_API}/cart/update`, {
         userId,
         foodId,
         quantity: change,
@@ -125,7 +127,7 @@ function Home() {
 
   const removeFromCart = async (foodId) => {
     try {
-      const response = await axios.post("http://localhost:9090/cart/remove", {
+      const response = await axios.post(`${BACKEND_API}/cart/remove`, {
         userId,
         foodId: foodId.toString(),
       });
@@ -163,7 +165,7 @@ function Home() {
     }
 
     try {
-      const response = await axios.post("http://localhost:9090/order/place-order", { userId, totalPrice, items: cart }, {
+      const response = await axios.post(`${BACKEND_API}/order/place-order`, { userId, totalPrice, items: cart }, {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"

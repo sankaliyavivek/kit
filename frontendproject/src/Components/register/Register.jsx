@@ -3,6 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../register/registerCss.scss';
 
+
+const BACKEND_API=import.meta.env.BACKEND_API_URL
+
+
+
 function Register() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -19,7 +24,7 @@ function Register() {
         }
 
         try {
-            const response = await axios.post("http://localhost:9090/user/register", {
+            const response = await axios.post(`${BACKEND_API}/user/register`, {
                name,
                 email,
                 password ,

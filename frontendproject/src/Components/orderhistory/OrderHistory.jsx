@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import '../orderhistory/orderCss.scss'
 
+
+const BACKEND_API=import.meta.env.BACKEND_API_URL
+
 function OrderHistory() {
     const [orders, setOrders] = useState([]);
     const userId = localStorage.getItem("userId");
@@ -12,7 +15,7 @@ function OrderHistory() {
 
     const fetchOrderHistory = async () => {
         try {
-            const response = await axios.get(`http://localhost:9090/order/history/${userId}`);
+            const response = await axios.get(`${BACKEND_API}/order/history/${userId}`);
             setOrders(response.data);
         } catch (error) {
             console.error("Error fetching order history:", error);
@@ -23,7 +26,7 @@ function OrderHistory() {
 
     const hideOrder = async (orderId) => {
         try {
-            const response = await axios.put(`http://localhost:9090/order/hide/${orderId}`);
+            const response = await axios.put(`${BACKEND_API}/order/hide/${orderId}`);
             if (response.data.success) {
                 setOrders(orders.filter(order => order._id !== orderId)); // Update UI without removing from database
                 alert("Order removed from history");

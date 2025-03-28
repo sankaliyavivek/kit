@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "../kitchen/kitchenCss.scss";
 import socket from "../../socket";
-// const socket = io("http://localhost:5000"); // Replace with your backend URL
+
+const BACKEND_API=import.meta.env.BACKEND_API_URL
 
 function KitchenScreen() {
   const [orders, setOrders] = useState([]);
 
   // Fetch orders from the backend
   useEffect(() => {
-    fetch("http://localhost:9090/order/orders") // Replace with your API endpoint
+    fetch(`${BACKEND_API}/order/orders`) // Replace with your API endpoint
       .then((res) => res.json())
       .then((data) => setOrders(data))
       .catch((err) => console.error("Error fetching orders:", err));
@@ -35,7 +36,7 @@ function KitchenScreen() {
 
   // Function to update order status
   const updateOrderStatus = (orderId, newStatus) => {
-    fetch(`http://localhost:9090/order/update-status/${orderId}`, {
+    fetch(`${BACKEND_API}/order/update-status/${orderId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus }),
