@@ -2,7 +2,7 @@
   "name": "frontendproject",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://sankaliyavivek.github.io/Kit/",
+  "homepage": "https://sankaliyavivek.github.io/kit/",
   "type": "module",
   "scripts": {
     "dev": "vite",
