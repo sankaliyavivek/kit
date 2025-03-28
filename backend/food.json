@@ -1,0 +1,77 @@
+[
+    {
+        "name": "Cheese Burger",
+        "price": 8,
+        "category": "Fast Food"
+    },
+    {
+        "name": "Pasta Alfredo",
+        "price": 15,
+        "category": "Italian"
+    },
+    {
+        "name": "Sushi Roll",
+        "price": 20,
+        "category": "Japanese"
+    },
+    {
+        "name": "Tacos",
+        "price": 10,
+        "category": "Mexican"
+    },
+    {
+        "name": "Margherita Pizza",
+        "price": 12,
+        "category": "Italian"
+    },
+    {
+        "name": "Biryani",
+        "price": 14,
+        "category": "Indian"
+    },
+    {
+        "name": "Grilled Salmon",
+        "price": 18,
+        "category": "Seafood"
+    },
+    {
+        "name": "Caesar Salad",
+        "price": 9,
+        "category": "Salad"
+    },
+    {
+        "name": "Steak",
+        "price": 25,
+        "category": "American"
+    },
+    {
+        "name": "Spring Rolls",
+        "price": 7,
+        "category": "Chinese"
+    },
+    {
+        "name": "Pho",
+        "price": 13,
+        "category": "Vietnamese"
+    },
+    {
+        "name": "Falafel Wrap",
+        "price": 11,
+        "category": "Middle Eastern"
+    },
+    {
+        "name": "Chocolate Cake",
+        "price": 6,
+        "category": "Dessert"
+    },
+    {
+        "name": "vadapav",
+        "price": 9,
+        "category": "Fast Food"
+    },
+    {
+        "name": "Pancakes",
+        "price": 8,
+        "category": "Breakfast"
+    }
+]

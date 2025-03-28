@@ -1,0 +1,52 @@
+.register-main{
+    height: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+  
+  
+    .register-box{
+
+      @media(max-width:500px){
+        width: 80% !important;
+      }
+    }
+
+    .card-body-register{
+      border: 1px solid rgb(196, 194, 194);
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgb(194, 184, 184);
+      overflow: hidden;
+
+      .reg-btn{
+        background-color: transparent;
+        border: 1px solid rgb(186, 186, 186);
+        transition: .5s;
+
+      }
+
+    }
+    .reg-btn:hover{
+      background-color: black;
+      color:white;
+    }
+
+    .register-card-body .under{
+      text-decoration: none;
+     
+
+      
+    }
+    .register-card-body .have:hover{
+      transform: scale(1.01);
+      // transition: .5s;
+    }
+
+    .facebook-btn,.google-btn{
+      border: 1px solid rgb(186, 185, 185);
+
+    }
+  }
+
+  

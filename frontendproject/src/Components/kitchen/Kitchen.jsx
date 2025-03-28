@@ -1,0 +1,134 @@
+import React, { useState, useEffect } from "react";
+import io from "socket.io-client";
+import "../kitchen/kitchenCss.scss";
+import socket from "../../socket";
+// const socket = io("http://localhost:5000"); // Replace with your backend URL
+
+function KitchenScreen() {
+  const [orders, setOrders] = useState([]);
+
+  // Fetch orders from the backend
+  useEffect(() => {
+    fetch("http://localhost:9090/order/orders") // Replace with your API endpoint
+      .then((res) => res.json())
+      .then((data) => setOrders(data))
+      .catch((err) => console.error("Error fetching orders:", err));
+
+    // Listen for real-time order updates
+    socket.on("orderPlaced", (newOrder) => {
+      setOrders((prevOrders) => [newOrder, ...prevOrders]);
+    });
+
+    socket.on("orderUpdated", (updatedOrder) => {
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === updatedOrder._id ? updatedOrder : order
+        )
+      );
+    });
+
+    return () => {
+      socket.off("orderPlaced");
+      socket.off("orderUpdated");
+    };
+  }, []);
+
+  // Function to update order status
+  const updateOrderStatus = (orderId, newStatus) => {
+    fetch(`http://localhost:9090/order/update-status/${orderId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: newStatus }),
+    })
+      .then((res) => res.json())
+      .then((updatedOrder) => {
+        if (updatedOrder.success) {
+          socket.emit("orderUpdated", updatedOrder.order);
+        }
+      })
+      .catch((err) => console.error("Error updating order:", err));
+  };
+
+  return (
+    <div className="content-wrapper pt-3">
+      <section className="content-header ps-2">
+        <h1>Kitchen Orders</h1>
+      </section>
+      <section className="container-fluid">
+        <div className="box">
+          <div className="box-header text-center">
+            <h3 className="box-title">Real-time Orders</h3>
+          </div>
+          <div className="box-body table-responsive">
+            <table className="table table-bordered table-striped">
+              <thead className="table-dark">
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Cook</th>
+                  <th>Status</th>
+                  <th>Items</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <tr
+                    key={order._id}
+                    className={
+                      order.status === "Pending"
+                        ? "bg-warning"
+                        : order.status === "Cooking"
+                        ? "bg-info"
+                        : order.status === "Ready"
+                        ? "bg-success"
+                        : ""
+                    }
+                  >
+                    <td>{order._id}</td>
+                    <td>{order.userId?.name || "Unknown"}</td>
+                    <td>{order.cookId?.name || "Not Assigned"}</td>
+                    <td>
+                      <span className={`label label-${order.status.toLowerCase()}`}>
+                        {order.status}
+                      </span>
+                    </td>
+                    <td>
+                      <ul style={{ listStyle: "none" }}>
+                        {order.items.map((item, index) => (
+                          <li key={index}>
+                            {item.name} x {item.quantity}
+                          </li>
+                        ))}
+                      </ul>
+                    </td>
+                    <td>
+                      {order.status === "Pending" && (
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => updateOrderStatus(order._id, "Cooking")}
+                        >
+                          Start Cooking
+                        </button>
+                      )}
+                      {order.status === "Cooking" && (
+                        <button
+                          className="btn btn-success"
+                          onClick={() => updateOrderStatus(order._id, "Ready")}
+                        >
+                          Mark as Ready
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+export default KitchenScreen;

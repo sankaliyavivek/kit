@@ -1,0 +1,34 @@
+.dashboard-main {
+border: none;
+    
+
+.dashboard-card-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.dashboard-card{
+    margin:auto;
+    // border: 1px solid;
+}
+
+.dashboard-card .card{
+    background: rgb(224, 224, 225);
+    color: black;
+}
+.dashboard-card {
+    width: 23%;
+
+    @media(max-width:980px){
+        width: 45%;
+    }
+
+    @media(max-width:490px){
+        width: 100%;
+    }
+}
+}
+

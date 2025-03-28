@@ -1,0 +1,98 @@
+
+* {
+  font-family: "outfit", sans-serif;  
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.admin-container {
+    display: flex;
+    border: none;
+    background-color: white;
+  }
+  
+  .sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #343a40;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .sidebar .nav-link {
+    color: white;
+    padding: 10px;
+    display: block;
+    border-bottom: 1px solid rgb(101, 96, 96);
+
+  }
+  .nav-item{
+    padding-top: 5px;
+  }
+  
+  .sidebar .nav-link:hover {
+    background: #495057;
+  }
+  
+  .sidebar-toggle {
+    display: none;
+    position: absolute;
+    top: 2px;
+    right: 0px;
+    background: #343a40;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .content {
+    flex: 1;
+    height: 100vh;
+    margin-left: 250px;
+  }
+  
+ 
+  
+  .badge {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .sidebar-toggle {
+      display: block;
+    }
+  
+    .sidebar {
+      transform: translateX(-100%);
+      z-index: 1;
+    }
+  
+    .sidebar.open {
+      transform: translateX(0);
+    }
+  
+    .content {
+      margin-left: 0;
+    }
+  }
+  
+/* Fade-in Animation */
+.admin-container {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.admin-container.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+  
+  

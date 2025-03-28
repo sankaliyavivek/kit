@@ -1,0 +1,136 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: nowrap; // Prevents stacking
+  width: 100%;
+}
+
+.food-menu-container {
+  flex: 2;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+
+  .food-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #343a40;
+    color: white;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+
+  .search-bar {
+    border: none;
+    border-radius: 5px;
+    padding: 6px 10px; // Reduce padding
+    width: 200px; // Reduce width for a better fit
+    font-size: 14px; // Adjust font size
+  }
+
+  .food-items-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // Ensure uniform size
+    gap: 10px; // Reduce space between boxes
+  }
+
+  .food-item {
+    background: rgb(224, 224, 225);
+    padding: 10px; // Reduce padding inside the box
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 140px; // Reduce overall height for uniformity
+    justify-content: center; // Center all content neatly
+  }
+
+  .food-item h4 {
+    font-size: 14px;
+    margin-bottom: 2px; // Reduce extra space below text
+  }
+
+  .food-item p {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px; // Less gap between price & button
+  }
+
+  .food-item button {
+    background-color: #343a40;
+    color: white;
+    border: none;
+    padding: 5px 8px; // Smaller button size
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 90%;
+  }
+
+  .food-item button:hover {
+    background-color: black;
+  }
+
+
+}
+
+// Side Cart (Always Beside)
+
+.side-cart {
+  width: 30%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cart-items {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.cart-details {
+  flex: 1;
+}
+
+.cart-controls {
+  display: flex;
+  align-items: center;
+}
+
+.cart-btn,.cart-btn1 {
+  background: #cb1e23;
+  color: white;
+  border: none;
+  padding: 5px 6px;
+  cursor: pointer;
+  margin: 0 4px;
+  border-radius: 5px;
+}
+.cart-btn1{
+  background-color: #007bff;
+}
+
+.remove-btn {
+  // background: #dc3545;
+  color: black;
+  border: none;
+  padding: 5px 6px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 4px;
+}
