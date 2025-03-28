@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
 import "../kitchen/kitchenCss.scss";
 import socket from "../../socket";
 
@@ -19,6 +18,14 @@ function KitchenScreen() {
     socket.on("orderPlaced", (newOrder) => {
       setOrders((prevOrders) => [newOrder, ...prevOrders]);
     });
+
+    // socket.on("orderUpdated", (updatedOrder) => {
+    //   setOrders((prevOrders) =>
+    //     prevOrders.map((order) =>
+    //       order._id === updatedOrder._id ? updatedOrder : order
+    //     )
+    //   );
+    // });
 
     socket.on("orderUpdated", (updatedOrder) => {
       setOrders((prevOrders) =>
@@ -44,6 +51,11 @@ function KitchenScreen() {
       .then((res) => res.json())
       .then((updatedOrder) => {
         if (updatedOrder.success) {
+          setOrders((prevOrders) =>
+            prevOrders.map((order) =>
+              order._id === updatedOrder.order._id ? updatedOrder.order : order
+            )
+          );
           socket.emit("orderUpdated", updatedOrder.order);
         }
       })
