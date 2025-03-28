@@ -10,7 +10,7 @@ import socket from "../../socket";
 //   transports: ["websocket", "polling"], // Add fallback transport
 // });
 
-const BACKEND_API=import.meta.env.BACKEND_API_URL
+const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
 
 
 function Home() {

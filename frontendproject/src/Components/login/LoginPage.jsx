@@ -6,7 +6,7 @@ import {io} from 'socket.io-client';
 
 let socket = null; 
 
-const BACKEND_API=import.meta.env.BACKEND_API_URL
+const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
 
 
 // const socket = io("http://localhost:9090", {

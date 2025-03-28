@@ -5,7 +5,7 @@ import socket from "../socket";
 import axios from "axios";
 
 
-const BACKEND_API=import.meta.env.BACKEND_API_URL
+const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
 const useAutoLogout = () => {
     const navigate = useNavigate();
 

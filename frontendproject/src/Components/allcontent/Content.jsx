@@ -5,7 +5,7 @@ import axios from 'axios';
 import useAutoLogout from "../userLogout";
 
 
-const BACKEND_API=import.meta.env.BACKEND_API_URL
+const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
 function Content() {
     useAutoLogout();
     const [isSidebarOpen, setSidebarOpen] = useState(false);

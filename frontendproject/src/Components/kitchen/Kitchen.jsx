@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import "../kitchen/kitchenCss.scss";
 import socket from "../../socket";
 
-const BACKEND_API=import.meta.env.BACKEND_API_URL
+const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
 
 function KitchenScreen() {
   const [orders, setOrders] = useState([]);

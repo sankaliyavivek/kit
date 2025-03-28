@@ -4,7 +4,7 @@ import axios from "axios";
 import "../dashboard/dashboardCss.scss";
 import socket from "../../socket";
 
-const BACKEND_API=import.meta.env.BACKEND_API_URL
+const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
 
 function Dashboard() {
   const [orders, setOrders] = useState([]);
