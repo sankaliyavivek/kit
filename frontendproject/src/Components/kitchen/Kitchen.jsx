@@ -19,13 +19,7 @@ function KitchenScreen() {
       setOrders((prevOrders) => [newOrder, ...prevOrders]);
     });
 
-    // socket.on("orderUpdated", (updatedOrder) => {
-    //   setOrders((prevOrders) =>
-    //     prevOrders.map((order) =>
-    //       order._id === updatedOrder._id ? updatedOrder : order
-    //     )
-    //   );
-    // });
+   
 
     socket.on("orderUpdated", (updatedOrder) => {
       setOrders((prevOrders) =>
@@ -88,15 +82,16 @@ function KitchenScreen() {
                 {orders.map((order) => (
                   <tr
                     key={order._id}
-                    className={
-                      order.status === "Pending"
-                        ? "bg-warning"
-                        : order.status === "Cooking"
-                        ? "bg-info"
-                        : order.status === "Ready"
-                        ? "bg-success"
-                        : ""
-                    }
+                    style={{
+                      backgroundColor:
+                        order.status === "Pending"
+                          ? "#ffc107" // Warning color (yellow)
+                          : order.status === "Cooking"
+                          ? "#17a2b8" // Info color (blue)
+                          : order.status === "Ready"
+                          ? "#28a745" // Success color (green)
+                          : "white",
+                    }}
                   >
                     <td>{order._id}</td>
                     <td>{order.userId?.name || "Unknown"}</td>
