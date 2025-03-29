@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../login/loginCss.scss';
-import {io} from 'socket.io-client';
+import { io } from 'socket.io-client';
 
-let socket = null; 
+let socket = null;
 
-const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
+const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL
 
 
 // const socket = io("http://localhost:9090", {
@@ -90,10 +90,11 @@ function LoginPage() {
                                     <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
                                 </div>
                             </div>
-                            <div className="row justify-content-center align-items-center">
-                                <div className="col-xl-12 col-md-6 col-6">
+
+                            <div className="d-flex justify-content-center align-items-center">
+                              
                                     <button className="btn login-btn">Log In</button>
-                                </div>
+                           
                             </div>
                         </form>
                         <div className="social-auth-links text-center mb-3 d-grid gap-3">
