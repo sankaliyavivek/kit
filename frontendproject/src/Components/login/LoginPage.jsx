@@ -90,7 +90,7 @@ function LoginPage() {
                                     <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
                                 </div>
                             </div>
-                            <div className="row justify-content-center">
+                            <div className="row justify-content-center align-items-center">
                                 <div className="col-xl-4 col-md-6 col-6">
                                     <button className="btn login-btn">Log In</button>
                                 </div>

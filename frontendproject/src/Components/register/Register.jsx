@@ -85,7 +85,7 @@ function Register() {
                                     </span>
                                 </div>
                             </div>
-                            <div className="row justify-content-center">
+                            <div className="row justify-content-center align-items-center">
                                 <div className="col-6">
                                     <button type="submit" className="btn reg-btn d-grid gap-2">Sign Up</button>
                                 </div>
