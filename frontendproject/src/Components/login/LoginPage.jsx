@@ -91,7 +91,7 @@ function LoginPage() {
                                 </div>
                             </div>
                             <div className="row justify-content-center align-items-center">
-                                <div className="col-xl-4 col-md-6 col-6">
+                                <div className="col-xl-12 col-md-6 col-6">
                                     <button className="btn login-btn">Log In</button>
                                 </div>
                             </div>
