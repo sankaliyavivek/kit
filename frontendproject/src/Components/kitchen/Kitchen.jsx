@@ -78,7 +78,7 @@ function KitchenScreen() {
                 <tr>
                   <th>Order ID</th>
                   <th>Customer</th>
-                  <th>Cook</th>
+                 {/* <th>Cook</th> */}
                   <th>Status</th>
                   <th>Items</th>
                   <th>Action</th>
@@ -100,7 +100,7 @@ function KitchenScreen() {
                   >
                     <td>{order._id}</td>
                     <td>{order.userId?.name || "Unknown"}</td>
-                    <td>{order.cookId?.name || "Not Assigned"}</td>
+                    {/* <td>{order.cookId?.name || "Not Assigned"}</td> */}
                     <td>
                       <span className={`label label-${order.status.toLowerCase()}`}>
                         {order.status}
