@@ -12,10 +12,6 @@ import OrderHistory from './Components/orderhistory/OrderHistory';
 import socket from './socket';
 
 
-// const socket = io("http://localhost:9090", {
-//   withCredentials: true,
-//   transports: ["websocket", "polling"], // Add fallback transport
-// });
 function App() {
 
   useEffect(()=>{

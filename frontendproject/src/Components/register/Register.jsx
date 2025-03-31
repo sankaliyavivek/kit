@@ -13,6 +13,7 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [role, setRole] = useState('user'); // Default role
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -28,6 +29,7 @@ function Register() {
                name,
                 email,
                 password ,
+                role, // Send role in request
             },{withCredentials: true});
             
             alert(response.data.message);
@@ -85,6 +87,15 @@ function Register() {
                                     </span>
                                 </div>
                             </div>
+
+                              {/* Role Selection */}
+                              <div className="input-group mb-3">
+                                <select className="form-select" value={role} onChange={(e) => setRole(e.target.value)} required>
+                                    <option value="user">User</option>
+                                    <option value="kitchen-staff">Kitchen Staff</option>
+                                </select>
+                            </div>
+
                             <div className="d-flex justify-content-center align-items-center">
                                
                                     <button type="submit" className="btn reg-btn d-grid gap-2">Sign Up</button>
