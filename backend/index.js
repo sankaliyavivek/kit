@@ -14,7 +14,7 @@
     app.use(cookieParser());
     app.use(express.json());
     app.use(cors({
-        origin: ["https://sankaliyavivek.github.io"],
+        origin: ["https://sankaliyavivek.github.io", "http://localhost:9090","https://kit-sxkb.onrender.com"],
         credentials: true
     }));
 
