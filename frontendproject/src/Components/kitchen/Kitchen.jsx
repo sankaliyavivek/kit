@@ -10,13 +10,6 @@ function KitchenScreen() {
 
   // Fetch orders from the backend
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-
-    if (storedUser) {
-      setUser(storedUser);
-    } else {
-      console.log("No user found in localStorage");
-    }
     fetch(`${BACKEND_API}/order/orders`) // Replace with your API endpoint
       .then((res) => res.json())
       .then((data) => setOrders(data))
@@ -94,16 +87,17 @@ function KitchenScreen() {
                     style={{
                       backgroundColor:
                         order.status === "Pending"
-                          ? "#ffc107"
+                          ? "#ffc107" // Warning color (yellow)
                           : order.status === "Cooking"
-                          ? "#17a2b8"
+                          ? "#17a2b8" // Info color (blue)
                           : order.status === "Ready"
-                          ? "#28a745"
+                          ? "#28a745" // Success color (green)
                           : "white",
                     }}
                   >
                     <td>{order._id}</td>
                     <td>{order.userId?.name || "Unknown"}</td>
+                    {/* <td>{order.cookId?.name || "Not Assigned"}</td> */}
                     <td>
                       <span className={`label label-${order.status.toLowerCase()}`}>
                         {order.status}
@@ -118,30 +112,27 @@ function KitchenScreen() {
                         ))}
                       </ul>
                     </td>
-                    {user && user.role  === "kitchen-staff" && (
-                      <td>
-                        {order.status === "Pending" && (
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => updateOrderStatus(order._id, "Cooking")}
-                          >
-                            Start Cooking
-                          </button>
-                        )}
-                        {order.status === "Cooking" && (
-                          <button
-                            className="btn btn-success"
-                            onClick={() => updateOrderStatus(order._id, "Ready")}
-                          >
-                            Mark as Ready
-                          </button>
-                        )}
-                      </td>
-                    )}
+                    <td>
+                      {order.status === "Pending" && (
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => updateOrderStatus(order._id, "Cooking")}
+                        >
+                          Start Cooking
+                        </button>
+                      )}
+                      {order.status === "Cooking" && (
+                        <button
+                          className="btn btn-success"
+                          onClick={() => updateOrderStatus(order._id, "Ready")}
+                        >
+                          Mark as Ready
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
-
             </table>
           </div>
         </div>
