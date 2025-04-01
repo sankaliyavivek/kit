@@ -6,6 +6,7 @@ const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
 
 function KitchenScreen() {
   const [orders, setOrders] = useState([]);
+  const [user, setUser] = useState(null);
 
   // Fetch orders from the backend
   useEffect(() => {
@@ -37,6 +38,7 @@ function KitchenScreen() {
 
   // Function to update order status
   const updateOrderStatus = (orderId, newStatus) => {
+    if (!user || user.role !== "kitchen-staff") return;
     fetch(`${BACKEND_API}/order/update-status/${orderId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -85,17 +87,16 @@ function KitchenScreen() {
                     style={{
                       backgroundColor:
                         order.status === "Pending"
-                          ? "#ffc107" // Warning color (yellow)
+                          ? "#ffc107"
                           : order.status === "Cooking"
-                          ? "#17a2b8" // Info color (blue)
+                          ? "#17a2b8"
                           : order.status === "Ready"
-                          ? "#28a745" // Success color (green)
+                          ? "#28a745"
                           : "white",
                     }}
                   >
                     <td>{order._id}</td>
                     <td>{order.userId?.name || "Unknown"}</td>
-                    {/* <td>{order.cookId?.name || "Not Assigned"}</td> */}
                     <td>
                       <span className={`label label-${order.status.toLowerCase()}`}>
                         {order.status}
@@ -110,24 +111,26 @@ function KitchenScreen() {
                         ))}
                       </ul>
                     </td>
-                    <td>
-                      {order.status === "Pending" && (
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => updateOrderStatus(order._id, "Cooking")}
-                        >
-                          Start Cooking
-                        </button>
-                      )}
-                      {order.status === "Cooking" && (
-                        <button
-                          className="btn btn-success"
-                          onClick={() => updateOrderStatus(order._id, "Ready")}
-                        >
-                          Mark as Ready
-                        </button>
-                      )}
-                    </td>
+                    {user?.role === "kitchen-staff" && (
+                      <td>
+                        {order.status === "Pending" && (
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => updateOrderStatus(order._id, "Cooking")}
+                          >
+                            Start Cooking
+                          </button>
+                        )}
+                        {order.status === "Cooking" && (
+                          <button
+                            className="btn btn-success"
+                            onClick={() => updateOrderStatus(order._id, "Ready")}
+                          >
+                            Mark as Ready
+                          </button>
+                        )}
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

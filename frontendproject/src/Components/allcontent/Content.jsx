@@ -11,6 +11,7 @@ function Content() {
     useAutoLogout();
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const name = localStorage.getItem("username");
+    const role = localStorage.getItem("role")
     const navigate = useNavigate();
 
     
@@ -31,6 +32,7 @@ function Content() {
             localStorage.removeItem("token");
             localStorage.removeItem("userId");
             localStorage.removeItem("username");
+            localStorage.removeItem("role");
     
             navigate("/login");
         } catch (error) {
@@ -52,28 +54,38 @@ function Content() {
                 {name && <p className="text-center">Welcome, {name}!</p>}
                 <nav>
                     <ul className="nav flex-column">
-                        <li className="nav-item">
-                            <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to={'/dashboard'} onClick={() => setSidebarOpen(false)}>Dashboard</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to={'/kitchen'} onClick={() => setSidebarOpen(false)}>Kitchen</Link>
-                        </li>
-
-
-                        {name ? (
+                        {/* Sidebar for User Role */}
+                        {role === "user" && (
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={'/order'} onClick={() => { setSidebarOpen(false) }}>OrderHistory</Link>
+                                    <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
                                 </li>
-
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={'/dashboard'} onClick={() => setSidebarOpen(false)}>Dashboard</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={'/kitchen'} onClick={() => setSidebarOpen(false)}>Kitchen</Link>
+                                </li>
                                 <li className="nav-item">
                                     <button className="nav-link text-start text-white w-100" onClick={handleLogout}>Logout</button>
                                 </li>
                             </>
-                        ) : (
+                        )}
+
+                        {/* Sidebar for Kitchen Staff Role */}
+                        {role === "kitchen-staff" && (
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={'/kitchen'} onClick={() => setSidebarOpen(false)}>Kitchen</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={'/realtime-order'} onClick={() => setSidebarOpen(false)}>Realtime Orders</Link>
+                                </li>
+                            </>
+                        )}
+
+                        {/* Sidebar for No Role (Guest) */}
+                        {!role && (
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={'/register'} onClick={() => setSidebarOpen(false)}>Register</Link>

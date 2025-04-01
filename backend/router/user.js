@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../modal/user");
 const { getIo } = require("../socket");
 const dotenv = require("dotenv");
+const { limitKitchenStaff } = require("../auth/auth");
 dotenv.config();
 
 const router = express.Router();
@@ -11,7 +12,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 console.log(JWT_SECRET)
 
 // User Registration
-router.post('/register', async (req, res) => {
+router.post('/register',limitKitchenStaff, async (req, res) => {
     const { name, email, password,role } = req.body;
      
 
@@ -42,7 +43,7 @@ router.post("/login", async (req, res) => {
         }
 
         // Generate JWT Token
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "24h" });
+        const token = jwt.sign({ userId: user._id,role: user.role  }, JWT_SECRET, { expiresIn: "24h" });
 
         user.token = token;
         await user.save();
@@ -59,7 +60,7 @@ router.post("/login", async (req, res) => {
             path: "/",
         });
 
-        res.json({ message: "Login successful", token, name: user.name, userId: user._id });
+        res.json({ message: "Login successful", token, name: user.name, userId: user._id ,role: user.role});
 
     } catch (err) {
         console.error("Login Error:", err.message);

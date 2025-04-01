@@ -38,6 +38,7 @@ function LoginPage() {
                 localStorage.setItem('username', response.data.name);
                 localStorage.setItem('userId', response.data.userId);
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("role", response.data.role);
 
                 alert("Login successful!");
 
@@ -49,6 +50,12 @@ function LoginPage() {
                     },
                 });
 
+                // Redirect based on role
+                if (role === "kitchen-staff") {
+                    navigate("/kitchen");
+                } else {
+                    navigate("/home");
+                }
 
                 // Emit login event after successful authentication
                 socket.emit("userLoggedIn", response.data.userId);
@@ -92,9 +99,9 @@ function LoginPage() {
                             </div>
 
                             <div className="d-flex justify-content-center align-items-center">
-                              
-                                    <button className="btn login-btn">Log In</button>
-                           
+
+                                <button className="btn login-btn">Log In</button>
+
                             </div>
                         </form>
                         <div className="social-auth-links text-center mb-3 d-grid gap-3">
