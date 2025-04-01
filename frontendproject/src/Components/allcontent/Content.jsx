@@ -53,10 +53,12 @@ function Content() {
                 {name && <p className="text-center">Welcome, {name}!</p>}
                 <nav>
                     <ul className="nav flex-column">
-                        {/* Always show Home link */}
-                        <li className="nav-item">
-                            <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
-                        </li>
+                      {/* Show Home link for everyone except 'kitchen-staff' */}
+        {role !== "kitchen-staff" && (
+            <li className="nav-item">
+                <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
+            </li>
+        )}
 
                     {/* Show Dashboard link for 'user' role */}
 {role === "user" && (
