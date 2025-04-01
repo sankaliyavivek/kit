@@ -51,7 +51,7 @@ function LoginPage() {
                 });
 
                 // Redirect based on role
-                if (role === "kitchen-staff") {
+                if (response.data.role=== "kitchen-staff") {
                     navigate("/kitchen");
                 } else {
                     navigate("/home");

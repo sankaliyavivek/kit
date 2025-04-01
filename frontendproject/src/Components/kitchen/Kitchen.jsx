@@ -134,6 +134,7 @@ function KitchenScreen() {
                   </tr>
                 ))}
               </tbody>
+              
             </table>
           </div>
         </div>
