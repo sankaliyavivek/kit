@@ -1,12 +1,12 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import "../allcontent/contentCss.scss";
 import axios from 'axios';
 import useAutoLogout from "../userLogout";
 
 
 
-const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL 
+const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL
 function Content() {
     useAutoLogout();
     const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -14,7 +14,7 @@ function Content() {
     const role = localStorage.getItem("role")
     const navigate = useNavigate();
 
-    
+
     const handleLogout = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -23,12 +23,12 @@ function Content() {
                 navigate("/login");
                 return;
             }
-    
+
             console.log("Logging out... Checking cookies before request:");
             console.log(document.cookie);  // Debugging: Check if cookies exist
-    
+
             await axios.post(`${BACKEND_API}/user/logout`, {}, { withCredentials: true });
-    
+
             localStorage.removeItem("token");
             localStorage.removeItem("userId");
             localStorage.removeItem("username");
@@ -38,7 +38,7 @@ function Content() {
             console.error("Logout failed:", error.response?.data || error.message);
         }
     };
-    
+
 
     return (
         <div>
@@ -53,19 +53,19 @@ function Content() {
                 {name && <p className="text-center">Welcome, {name}!</p>}
                 <nav>
                     <ul className="nav flex-column">
-                      {/* Show Home link for everyone except 'kitchen-staff' */}
-        {role !== "kitchen-staff" && (
-            <li className="nav-item">
-                <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
-            </li>
-        )}
+                        {/* Show Home link for everyone except 'kitchen-staff' */}
+                        {role !== "kitchen-staff" && (
+                            <li className="nav-item">
+                                <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
+                            </li>
+                        )}
 
-                    {/* Show Dashboard link for 'user' role */}
-{role === "user" && (
-    <li className="nav-item">
-        <Link className="nav-link" to={'/dashboard'} onClick={() => setSidebarOpen(false)}>Dashboard</Link>
-    </li>
-)}  
+                        {/* Show Dashboard link for 'user' role */}
+                        {role === "user" && (
+                            <li className="nav-item">
+                                <Link className="nav-link" to={'/dashboard'} onClick={() => setSidebarOpen(false)}>Dashboard</Link>
+                            </li>
+                        )}
 
                         {/* Show Order History link for User role */}
                         {role === "user" && (

@@ -63,8 +63,6 @@ function LoginPage() {
 
                 // Emit login event after successful authentication
                 socket.emit("userLoggedIn", response.data.userId);
-
-                navigate("/home");
             }
         } catch (error) {
             console.error("Login Error:", error.response?.data?.message || error.message);
