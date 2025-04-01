@@ -68,7 +68,7 @@ function Content() {
                         {/* Show Order History link for User role */}
                         {role === "user" && (
                             <li className="nav-item">
-                                <Link className="nav-link" to={'/order-history'} onClick={() => setSidebarOpen(false)}>Order History</Link>
+                                <Link className="nav-link" to={'/order'} onClick={() => setSidebarOpen(false)}>Order History</Link>
                             </li>
                         )}
 
