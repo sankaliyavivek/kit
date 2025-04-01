@@ -51,10 +51,14 @@ function LoginPage() {
                 });
 
                 // Redirect based on role
-                if (response.data.role=== "kitchen-staff") {
-                    navigate("/kitchen");
-                } else {
-                    navigate("/home");
+                if (response.data.role === "kitchen-staff") {
+                    navigate("/kitchen");  // Redirect to the kitchen page for kitchen-staff
+                }
+                else if (response.data.role === "user") {
+                    navigate("/home");  // Redirect to the home page for user role
+                } 
+                else {
+                    navigate("/login");
                 }
 
                 // Emit login event after successful authentication
