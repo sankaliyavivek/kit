@@ -14,7 +14,7 @@
     app.use(cookieParser());
     app.use(express.json());
     app.use(cors({
-        origin: ["https://sankaliyavivek.github.io", "http://localhost:5173"],
+        origin: ["https://sankaliyavivek.github.io"],
         credentials: true
     }));
 

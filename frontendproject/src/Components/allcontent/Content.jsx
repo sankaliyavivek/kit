@@ -33,7 +33,6 @@ function Content() {
             localStorage.removeItem("userId");
             localStorage.removeItem("username");
             localStorage.removeItem("role");
-    
             navigate("/login");
         } catch (error) {
             console.error("Logout failed:", error.response?.data || error.message);
@@ -54,25 +53,26 @@ function Content() {
                 {name && <p className="text-center">Welcome, {name}!</p>}
                 <nav>
                     <ul className="nav flex-column">
-                        {/* Sidebar for User Role */}
-                        {role === "user" && (
-                            <>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to={'/dashboard'} onClick={() => setSidebarOpen(false)}>Dashboard</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to={'/kitchen'} onClick={() => setSidebarOpen(false)}>Kitchen</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <button className="nav-link text-start text-white w-100" onClick={handleLogout}>Logout</button>
-                                </li>
-                            </>
+                        {/* Always show Home link */}
+                        <li className="nav-item">
+                            <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
+                        </li>
+
+                        {/* Show Dashboard link for logged-in users */}
+                        {role && (
+                            <li className="nav-item">
+                                <Link className="nav-link" to={'/dashboard'} onClick={() => setSidebarOpen(false)}>Dashboard</Link>
+                            </li>
                         )}
 
-                        {/* Sidebar for Kitchen Staff Role */}
+                        {/* Show Order History link for User role */}
+                        {role === "user" && (
+                            <li className="nav-item">
+                                <Link className="nav-link" to={'/order-history'} onClick={() => setSidebarOpen(false)}>Order History</Link>
+                            </li>
+                        )}
+
+                        {/* Show Kitchen link and Logout button for Kitchen Staff */}
                         {role === "kitchen-staff" && (
                             <>
                                 <li className="nav-item">
@@ -84,7 +84,14 @@ function Content() {
                             </>
                         )}
 
-                        {/* Sidebar for No Role (Guest) */}
+                        {/* Show Logout button for User role */}
+                        {role === "user" && (
+                            <li className="nav-item">
+                                <button className="nav-link text-start text-white w-100" onClick={handleLogout}>Logout</button>
+                            </li>
+                        )}
+
+                        {/* Show Register and Login links for Guests (no role) */}
                         {!role && (
                             <>
                                 <li className="nav-item">

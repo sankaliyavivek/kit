@@ -10,6 +10,13 @@ function KitchenScreen() {
 
   // Fetch orders from the backend
   useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (storedUser) {
+      setUser(storedUser);
+    } else {
+      console.log("No user found in localStorage");
+    }
     fetch(`${BACKEND_API}/order/orders`) // Replace with your API endpoint
       .then((res) => res.json())
       .then((data) => setOrders(data))
@@ -111,7 +118,7 @@ function KitchenScreen() {
                         ))}
                       </ul>
                     </td>
-                    {user?.role === "kitchen-staff" && (
+                    {user && user.role  === "kitchen-staff" && (
                       <td>
                         {order.status === "Pending" && (
                           <button
@@ -134,7 +141,7 @@ function KitchenScreen() {
                   </tr>
                 ))}
               </tbody>
-              
+
             </table>
           </div>
         </div>
