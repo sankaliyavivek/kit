@@ -3,7 +3,6 @@ const Order = require("../modal/order");
 const Cart = require("../modal/cart");
 const router = express.Router();
 const { getIo } = require("../socket"); // Import Socket.IO from your main server
-const { auth } = require("../auth/auth");
 
 // Place an order from the cart
 router.post("/place-order", async (req, res) => {
@@ -111,15 +110,11 @@ router.delete("/remove/:orderId", async (req, res) => {
 });
 
 
-router.put("/update-status/:orderId", auth ,async (req, res) => {
+router.put("/update-status/:orderId", async (req, res) => {
     try {
 
-         // Only kitchen-staff should update orders
-         if (req.user.role !== "kitchen-staff") {
-            return res.status(403).json({ message: "Only kitchen staff can update orders." });
-         }
 
-
+        
         const { orderId } = req.params;
         const { status } = req.body;
 
