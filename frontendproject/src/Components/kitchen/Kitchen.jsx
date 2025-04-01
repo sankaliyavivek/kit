@@ -6,7 +6,6 @@ const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
 
 function KitchenScreen() {
   const [orders, setOrders] = useState([]);
-  const [user, setUser] = useState(null);
 
   // Fetch orders from the backend
   useEffect(() => {
@@ -38,7 +37,6 @@ function KitchenScreen() {
 
   // Function to update order status
   const updateOrderStatus = (orderId, newStatus) => {
-    if (!user || user.role !== "kitchen-staff") return;
     fetch(`${BACKEND_API}/order/update-status/${orderId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
