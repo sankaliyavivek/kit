@@ -58,12 +58,12 @@ function Content() {
                             <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
                         </li>
 
-                        {/* If user is logged in and has a role, show Dashboard link */}
-                        {role && (
-                            <li className="nav-item">
-                                <Link className="nav-link" to={'/dashboard'} onClick={() => setSidebarOpen(false)}>Dashboard</Link>
-                            </li>
-                        )}
+                    {/* Show Dashboard link for 'user' role */}
+{role === "user" && (
+    <li className="nav-item">
+        <Link className="nav-link" to={'/dashboard'} onClick={() => setSidebarOpen(false)}>Dashboard</Link>
+    </li>
+)}  
 
                         {/* Show Order History link for User role */}
                         {role === "user" && (
