@@ -79,7 +79,7 @@ function Content() {
                                     <Link className="nav-link" to={'/kitchen'} onClick={() => setSidebarOpen(false)}>Kitchen</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={'/realtime-order'} onClick={() => setSidebarOpen(false)}>Realtime Orders</Link>
+                                    <button className="nav-link text-start text-white w-100" onClick={handleLogout}>Logout</button>
                                 </li>
                             </>
                         )}
