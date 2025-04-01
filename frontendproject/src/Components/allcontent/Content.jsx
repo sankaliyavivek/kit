@@ -58,7 +58,7 @@ function Content() {
                             <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
                         </li>
 
-                        {/* Show Dashboard link for logged-in users */}
+                        {/* If user is logged in and has a role, show Dashboard link */}
                         {role && (
                             <li className="nav-item">
                                 <Link className="nav-link" to={'/dashboard'} onClick={() => setSidebarOpen(false)}>Dashboard</Link>
