@@ -113,8 +113,6 @@ router.delete("/remove/:orderId", async (req, res) => {
 router.put("/update-status/:orderId", async (req, res) => {
     try {
 
-
-        
         const { orderId } = req.params;
         const { status } = req.body;
 
@@ -129,8 +127,9 @@ router.put("/update-status/:orderId", async (req, res) => {
         }
 
         const io = getIo();
-        io.emit("orderUpdated", updatedOrder); // ✅ Broadcast order update to all clients
-
+        if (io) {
+            io.emit("orderUpdated", updatedOrder); // Broadcast order update
+        }
         res.json({ success: true, message: "Order status updated", order: updatedOrder });
     } catch (error) {
         console.error("Error updating order status:", error);
