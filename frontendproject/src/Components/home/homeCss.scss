@@ -81,11 +81,31 @@
 // Side Cart (Always Beside)
 
 .side-cart {
-  width: 30%;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @media (max-width: 500px) {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    z-index: 999;
+    transition: right 0.3s ease-in-out;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+  &.open {
+    right: 0;
+  }
+
+  .close-btn {
+    display: none;
+    @media (max-width: 500px) {
+      display: inline-block;
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
 }
 
 .cart-items {
@@ -133,4 +153,18 @@
   cursor: pointer;
   border-radius: 5px;
   margin-left: 4px;
+}
+
+.cart-toggle-btn {
+  display: none;
+  background-color: #17a2b8;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  @media (max-width: 500px) {
+    display: inline-block;
+  }
 }

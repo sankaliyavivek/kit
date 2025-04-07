@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { io } from "socket.io-client";
 import "../home/homeCss.scss";
 import socket from "../../socket";
 
-
-// const socket = io("http://localhost:9090", {
-//   withCredentials: true,
-//   transports: ["websocket", "polling"], // Add fallback transport
-// });
-
-const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
-
+const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
 
 function Home() {
   const [foodItems, setFoodItems] = useState([]);
   const [cart, setCart] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const userId = localStorage.getItem("userId");
-  const [isCheckedOut, setIsCheckedOut] = useState(false); // Track if checkout is completed
+  const [isCheckedOut, setIsCheckedOut] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false); // 🔥 For modal toggle
 
   useEffect(() => {
     fetchCart();
@@ -27,16 +20,16 @@ function Home() {
       .then((response) => setFoodItems(response.data))
       .catch((error) => console.error("Error fetching food:", error));
 
-      const handleCartUpdate = (data) => {
-        if (data.userId === userId) {
-            setCart(data.items);
-        }
+    const handleCartUpdate = (data) => {
+      if (data.userId === userId) {
+        setCart(data.items);
+      }
     };
 
     const handleOrderUpdated = (order) => {
       console.log("🔔 New order received:", order);
-      fetchCart(); 
-  };
+      fetchCart();
+    };
 
     socket.on("cartUpdated", handleCartUpdate);
     socket.on("orderPlaced", handleOrderUpdated);
@@ -44,70 +37,53 @@ function Home() {
       socket.off("cartUpdated");
       socket.off("orderPlaced");
     };
-
   }, []);
 
   const fetchCart = async () => {
-    const userId = localStorage.getItem("userId");
-
     if (!userId) {
-      setCart([]); // Clear cart if no user
+      setCart([]);
       return;
     }
 
     try {
       const response = await axios.get(`${BACKEND_API}/cart/${userId}`, {
-        headers: { "Cache-Control": "no-cache" }, // 🔥 Prevents old cached response
+        headers: { "Cache-Control": "no-cache" },
       });
-
-      // Check if cart is really empty in the response
       setCart(response.data.items?.length ? response.data.items : []);
     } catch (error) {
       console.error("Error fetching cart:", error);
     }
   };
 
-
-
   const addToCart = async (item) => {
-
-    const token = localStorage.getItem("token"); // Retrieve the token
-
-    if (!token) {
+    const token = localStorage.getItem("token");
+    if (!token || !userId) {
       alert("Please log in to add items to your cart!");
       return;
     }
-
-    if (!userId) {
-      alert("Please log in to add items to your cart!");
-      return;
-    }
-
-   
 
     try {
-      const response = await axios.post(`${BACKEND_API}/cart/add` , {
-        userId,
-        foodId: item._id,
-        quantity: 1,
-      },
+      const response = await axios.post(
+        `${BACKEND_API}/cart/add`,
+        {
+          userId,
+          foodId: item._id,
+          quantity: 1,
+        },
         {
           headers: {
-            "Authorization": `Bearer ${token}`, // 🔥 Send token in Authorization header
-            "Content-Type": "application/json"
-          }
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
 
       setCart(response.data.items);
-      console.log(response.data.items)
       socket.emit("orderPlaced", response.data.order);
-
-
     } catch (error) {
-      console.error("Error adding to cart:", error.response?.data || error.message);
+      console.error("Error adding to cart:", error);
       alert("Something went wrong. Reverting cart.");
-      fetchCart(); // 🔄 Revert in case of error
+      fetchCart();
     }
   };
 
@@ -126,7 +102,7 @@ function Home() {
 
       setCart(response.data.items);
     } catch (error) {
-      console.error("Error updating cart:", error.response?.data || error.message);
+      console.error("Error updating cart:", error);
     }
   };
 
@@ -152,14 +128,8 @@ function Home() {
 
   const checkout = async () => {
     const token = localStorage.getItem("token");
-    if (!token) {
+    if (!token || !userId) {
       alert("Please log in to place an order!");
-      return;
-    }
-
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      alert("User ID is missing. Please log in again.");
       return;
     }
 
@@ -170,40 +140,34 @@ function Home() {
     }
 
     try {
-      const response = await axios.post(`${BACKEND_API}/order/place-order`, { userId, totalPrice, items: cart }, {
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+      const response = await axios.post(
+        `${BACKEND_API}/order/place-order`,
+        { userId, totalPrice, items: cart },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-      });
+      );
 
       if (response.data.success) {
-        // alert(response.data.message);
-        // setIsCheckedOut(true);
-        // setCart([]); // ✅ Clear frontend cart immediately
-        // socket.emit("orderUpdated", response.data.order);
-
         alert(response.data.message);
         setIsCheckedOut(true);
         setCart([]);
-        socket.emit("orderPlaced", response.data.order); // 👈 notify kitchen
-
-        // ✅ Force refetch to ensure backend cart is cleared
+        socket.emit("orderPlaced", response.data.order);
         setTimeout(() => fetchCart(), 500);
       } else {
         alert("Order failed. Please try again.");
       }
     } catch (error) {
-      console.error("Error placing order:", error.response?.data || error.message);
+      console.error("Error placing order:", error);
       alert("Something went wrong. Please try again.");
     }
   };
 
-
-
   return (
     <div className="container">
-      {/* Food Menu */}
       <div className="food-menu-container">
         <header className="food-menu-header">
           <h1>Food Menu</h1>
@@ -214,6 +178,9 @@ function Home() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-bar"
           />
+          <button className="cart-toggle-btn" onClick={() => setIsCartOpen(true)}>
+            View Cart
+          </button>
         </header>
 
         <div className="food-items-list">
@@ -227,9 +194,15 @@ function Home() {
         </div>
       </div>
 
-      {/* Cart Section */}
-      <div className="side-cart">
-        <h2>Cart</h2>
+      {/* Cart Section - Side or Modal */}
+      <div className={`side-cart ${isCartOpen ? "open" : ""}`}>
+        <h2>
+          Cart
+          <span className="close-btn" onClick={() => setIsCartOpen(false)}>
+            &times;
+          </span>
+        </h2>
+
         {cart.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
@@ -238,30 +211,30 @@ function Home() {
               <div key={item.foodId} className="cart-item">
                 <div className="cart-details">
                   <p className="cart-item-name">{item.name}</p>
-                  <p className="cart-item-price">${item.price} x {item.quantity}</p>
+                  <p className="cart-item-price">
+                    ${item.price} x {item.quantity}
+                  </p>
                 </div>
 
                 <div className="cart-controls">
                   <button
                     onClick={() => updateQuantity(item.foodId, -1)}
                     className="cart-btn"
-                    disabled={isCheckedOut} // 🔥 Disable after checkout
+                    disabled={isCheckedOut}
                   >
                     -
                   </button>
-
                   <button
                     onClick={() => updateQuantity(item.foodId, 1)}
                     className="cart-btn1"
-                    disabled={isCheckedOut} // 🔥 Disable after checkout
+                    disabled={isCheckedOut}
                   >
                     +
                   </button>
-
                   <button
                     onClick={() => removeFromCart(item.foodId)}
                     className="remove-btn"
-                    disabled={isCheckedOut} // 🔥 Disable after checkout
+                    disabled={isCheckedOut}
                   >
                     X
                   </button>
@@ -272,15 +245,11 @@ function Home() {
         )}
 
         <h4>Subtotal: ${getSubtotal().toFixed(2)}</h4>
-
-        {/* Checkout Button */}
         {cart.length > 0 && !isCheckedOut && (
           <button className="checkout-btn btn bg-info mt-2" onClick={checkout}>
             Proceed to Checkout
           </button>
         )}
-
-        {/* Show confirmation message if checked out */}
         {isCheckedOut && <p className="checkout-message">✔ Order placed successfully! Items are locked.</p>}
       </div>
     </div>
