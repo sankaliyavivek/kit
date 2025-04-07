@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Dashboard from './Components/dashboard/Dashboard';
 import Register from './Components/register/Register';
 import LoginPage from './Components/login/LoginPage';
@@ -10,6 +10,8 @@ import Home from './Components/home/Home';
 import ForgotPassword from './Components/forgotpassword/ForgotPassword';
 import OrderHistory from './Components/orderhistory/OrderHistory';
 import socket from './socket';
+
+
 
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
     console.log('Disconnected from server')
   })
 
+
   return ()=>{
     socket.off('connect')
     socket.off('disconnect')
@@ -30,7 +33,6 @@ function App() {
   }
   })
   return (
-    <Router>
     <div className='layout-fixed sidebar-expand-lg '>
       <Routes>
         {/* Default route redirects to /login */}
@@ -50,7 +52,6 @@ function App() {
         </Route>
       </Routes>
     </div>
-  </Router>
   );
 }
 
