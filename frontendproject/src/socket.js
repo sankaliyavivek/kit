@@ -11,5 +11,10 @@ const socket = io(SOCKET_API, {
   auth: { token },  // ✅ Use auth instead of extraHeaders
 });
 
+
+socket.on("reconnect_attempt", () => {
+  const updatedToken = localStorage.getItem("token");
+  socket.auth.token = updatedToken;
+});
 export default socket;
 
