@@ -33,25 +33,23 @@ function App() {
   }
   })
   return (
-    <div className='layout-fixed sidebar-expand-lg '>
-      <Routes>
-        {/* Default route redirects to /login */}
-        <Route path="/" element={<Navigate to="/login" />} />
+    <div className="layout-fixed sidebar-expand-lg">
+    <Routes>
+      <Route path="/" element={<Content />}>
+        {/* Redirect to /login on first load */}
+        <Route index element={<Navigate to="/login" />} />
 
-        {/* Auth pages (Login/Register/Forgot Password) outside layout */}
+        {/* Always show sidebar with all pages */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<ForgotPassword />} />
-
-        {/* Protected pages wrapped in layout */}
-        <Route path="/" element={<Content />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/kitchen" element={<Kitchen />} />
-          <Route path="/order" element={<OrderHistory />} />
-        </Route>
-      </Routes>
-    </div>
+        <Route path="/home" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/kitchen" element={<Kitchen />} />
+        <Route path="/order" element={<OrderHistory />} />
+      </Route>
+    </Routes>
+  </div>
   );
 }
 
