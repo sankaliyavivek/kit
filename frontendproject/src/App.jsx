@@ -40,7 +40,7 @@
 
     return (
       <div className='layout-fixed sidebar-expand-lg '>
-         <Router>
+         
         <Content>
           <Routes>
             {/* Public Routes */}
@@ -61,7 +61,7 @@
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </Content>
-      </Router>
+   
 
       </div>
     );
