@@ -18,6 +18,7 @@ function App() {
 
   useEffect(()=>{
 
+      const get = socket;
     socket.on("connect", () => {
       console.log("✅ Connected to Socket.IO server!");
   });

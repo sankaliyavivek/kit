@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../login/loginCss.scss';
 import { io } from 'socket.io-client';
+import socket from '../../socket';
 
 let socket = null;
 
@@ -42,13 +43,17 @@ function LoginPage() {
 
                 alert("Login successful!");
 
-                socket = io(`${BACKEND_API}`, {
-                    withCredentials: true,
-                    transports: ["websocket", "polling"],
-                    auth: {
-                        token: response.data.token, // Pass token in headers
-                    },
-                });
+                // socket = io(`${BACKEND_API}`, {
+                //     withCredentials: true,
+                //     transports: ["websocket", "polling"],
+                //     auth: {
+                //         token: response.data.token, // Pass token in headers
+                //     },
+                // });
+
+                const socketInit = socket;
+
+                socketInit.emit("userLoggedIn", response.data.userId);
 
                 // Redirect based on role
                 if (response.data.role === "kitchen-staff") {
@@ -56,7 +61,7 @@ function LoginPage() {
                 }
                 else if (response.data.role === "user") {
                     navigate("/home");  // Redirect to the home page for user role
-                } 
+                }
                 else {
                     navigate("/login");
                 }
