@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Dashboard from './Components/dashboard/Dashboard';
 import Register from './Components/register/Register';
 import LoginPage from './Components/login/LoginPage';
