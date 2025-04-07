@@ -41,12 +41,14 @@ function Dashboard() {
           )
         );
       };
+
+      socket.on("orderUpdated",handleOrderUpdated);
     
 
   
     return () => {
       socket.off("orderPlaced");
-       socket.on("orderUpdated", handleOrderUpdated);
+       socket.off("orderUpdated", handleOrderUpdated);
     };
   }, []);
 
