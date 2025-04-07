@@ -25,10 +25,14 @@ function Dashboard() {
       console.log("Socket instance:", socket);
 
       
-      const handleOrderPlaced = (newOrder) => {
+      socket.on("orderPlaced", (newOrder) => {
         console.log("📢 New order received:", newOrder);
+      
+        // ✅ Ensure userId is populated before updating state
         setOrders((prevOrders) => [newOrder, ...prevOrders]);
-      };
+      });
+      
+
       const handleOrderUpdated = (updatedOrder) => {
         console.log("🔄 Order updated:", updatedOrder);
         setOrders((prevOrders) =>
@@ -37,15 +41,12 @@ function Dashboard() {
           )
         );
       };
-
-      socket.on("orderPlaced", handleOrderPlaced);
-  socket.on("orderUpdated", handleOrderUpdated);
     
 
   
     return () => {
-      socket.off("orderPlaced",handleOrderPlaced);
-      socket.off("orderUpdated", handleOrderUpdated);
+      socket.off("orderPlaced");
+       socket.on("orderUpdated", handleOrderUpdated);
     };
   }, []);
 
