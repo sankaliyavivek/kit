@@ -55,6 +55,7 @@ function KitchenScreen() {
       .then((res) => res.json())
       .then((updatedOrder) => {
         if (updatedOrder.success && updatedOrder.order) {
+          const updated = updatedOrder.order;
           setOrders((prevOrders) =>
             prevOrders.map((order) =>
               order._id === updated._id ? updated : order
