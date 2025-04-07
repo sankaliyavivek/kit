@@ -20,6 +20,7 @@ function Dashboard() {
       }
     };
 
+    fetchOrders();
 
       console.log("Socket instance:", socket);
 
@@ -41,8 +42,7 @@ function Dashboard() {
       );
   });
 
-  fetchOrders();
-
+  
     return () => {
       socket.off("orderPlaced");
       socket.off("orderUpdated");
