@@ -14,6 +14,13 @@ import socket from './socket';
 
 function App() {
 
+  // Helper function for private routing
+const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" replace />;
+};
+
+
   useEffect(()=>{
     socket.on("connect", () => {
       console.log("✅ Connected to Socket.IO server!");
@@ -31,16 +38,24 @@ function App() {
   })
   return (
     <div className='layout-fixed sidebar-expand-lg '>
-      <Routes>
-        <Route path="/" element={<Content></Content>}>
-        <Route path='/home' element={<Home></Home>}></Route>
+       <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot" element={<ForgotPassword />} />
+
+        {/* Protected Routes */}
+        <Route path="/" element={<PrivateRoute><Content /></PrivateRoute>}>
+          <Route path="/home" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/register" element={<Register />} />
-          <Route path='/login' element={<LoginPage></LoginPage>}></Route>
-          <Route path='/kitchen' element={<Kitchen></Kitchen>}></Route>
-          <Route path='/forgot' element={<ForgotPassword></ForgotPassword>}></Route>
-          <Route path='/order' element={<OrderHistory></OrderHistory>}></Route>
+          <Route path="/kitchen" element={<Kitchen />} />
+          <Route path="/order" element={<OrderHistory />} />
+          {/* Default redirect to /home when logged in */}
+          <Route index element={<Navigate to="/home" />} />
         </Route>
+
+        {/* Catch-all: redirect any unknown route to login */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
 
     </div>

@@ -53,18 +53,19 @@ function Content() {
                 {name && <p className="text-center">Welcome, {name}!</p>}
                 <nav>
                     <ul className="nav flex-column">
-                        {/* Show Home link for everyone except 'kitchen-staff' */}
-                        {role !== "kitchen-staff" && (
-                            <li className="nav-item">
-                                <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
-                            </li>
-                        )}
-
                         {/* Show Dashboard link for 'user' role */}
                         {role === "user" && (
+                            <>
+                               <li className="nav-item">
+                               <Link className="nav-link" to={'/home'} onClick={() => setSidebarOpen(false)}>Home</Link>
+                           </li>
+              
                             <li className="nav-item">
                                 <Link className="nav-link" to={'/dashboard'} onClick={() => setSidebarOpen(false)}>Dashboard</Link>
                             </li>
+                            </>
+
+
                         )}
 
                         {/* Show Order History link for User role */}
