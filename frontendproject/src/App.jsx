@@ -10,6 +10,7 @@ import Home from './Components/home/Home';
 import ForgotPassword from './Components/forgotpassword/ForgotPassword';
 import OrderHistory from './Components/orderhistory/OrderHistory';
 import socket from './socket';
+import { initializeSocket } from '../../backend/socket';
 
 
 
@@ -17,6 +18,12 @@ import socket from './socket';
 function App() {
 
   useEffect(()=>{
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      initializeSocket(token);
+    }
+
     socket.on("connect", () => {
       console.log("✅ Connected to Socket.IO server!");
   });
