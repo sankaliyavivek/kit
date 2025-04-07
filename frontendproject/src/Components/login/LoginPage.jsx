@@ -3,9 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../login/loginCss.scss';
 import { io } from 'socket.io-client';
-import { getSocket, initializeSocket } from '../../socket';
 
-// let socket = null;
+let socket = null;
 
 const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL
 
@@ -41,19 +40,15 @@ function LoginPage() {
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("role", response.data.role);
 
-                // alert("Login successful!");
+                alert("Login successful!");
 
-                // socket = io(`${BACKEND_API}`, {
-                //     withCredentials: true,
-                //     transports: ["websocket", "polling"],
-                //     auth: {
-                //         token: response.data.token, // Pass token in headers
-                //     },
-                // });
-
-                initializeSocket(response.data.token);
-
-                const socket =getSocket();
+                socket = io(`${BACKEND_API}`, {
+                    withCredentials: true,
+                    transports: ["websocket", "polling"],
+                    auth: {
+                        token: response.data.token, // Pass token in headers
+                    },
+                });
 
                 // Redirect based on role
                 if (response.data.role === "kitchen-staff") {
