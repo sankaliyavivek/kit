@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../login/loginCss.scss';
 import { io } from 'socket.io-client';
-import { initializeSocket } from '../../../../backend/socket';
+import { getSocket, initializeSocket } from '../../socket';
 
 // let socket = null;
 
@@ -51,9 +51,9 @@ function LoginPage() {
                 //     },
                 // });
 
-                initializeSocket(token);
+                initializeSocket(response.data.token);
 
-                const socket = await import('../../socket').then(mod=>mod.getSocket);
+                const socket =getSocket();
 
                 // Redirect based on role
                 if (response.data.role === "kitchen-staff") {
