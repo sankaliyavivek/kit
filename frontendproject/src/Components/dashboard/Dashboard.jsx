@@ -19,33 +19,33 @@ function Dashboard() {
         console.error("Error fetching orders:", error);
       }
     };
-
     fetchOrders();
+
 
       console.log("Socket instance:", socket);
 
       
       socket.on("orderPlaced", (newOrder) => {
         console.log("📢 New order received:", newOrder);
-        setOrders((prev) => [newOrder, ...prev]);
+      
+        // ✅ Ensure userId is populated before updating state
+        setOrders((prevOrders) => [newOrder, ...prevOrders]);
       });
+      
 
-      const handleOrderUpdated = (updatedOrder) => {
-        console.log("🔄 Order updated:", updatedOrder);
-        setOrders((prevOrders) =>
+    socket.on("orderUpdated", (updatedOrder) => {
+      console.log("🔄 Order updated:", updatedOrder);
+      setOrders((prevOrders) =>
           prevOrders.map((order) =>
-            order._id === updatedOrder._id ? updatedOrder : order
+              order._id === updatedOrder._id ? updatedOrder : order
           )
-        );
-      };
+      );
+  });
 
-      socket.on("orderUpdated",handleOrderUpdated);
-    
-
-  
+ 
     return () => {
       socket.off("orderPlaced");
-      socket.off("orderUpdated", handleOrderUpdated);
+      socket.off("orderUpdated");
     };
   }, []);
 
