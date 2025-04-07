@@ -18,20 +18,30 @@ function KitchenScreen() {
     socket.on("orderPlaced", (newOrder) => {
       setOrders((prevOrders) => [newOrder, ...prevOrders]);
     });
-
    
 
-    socket.on("orderUpdated", (updatedOrder) => {
-      setOrders((prevOrders) =>
-        prevOrders.map((order) =>
+   
+    // Handle updated order
+    const handleUpdatedOrder = (updatedOrder) => {
+      setOrders((prevOrders) => {
+        const alreadyUpdated = prevOrders.find(
+          (order) =>
+            order._id === updatedOrder._id &&
+            order.status === updatedOrder.status
+        );
+        if (alreadyUpdated) return prevOrders;
+
+        return prevOrders.map((order) =>
           order._id === updatedOrder._id ? updatedOrder : order
-        )
-      );
-    });
+        );
+      });
+    };
+
+    socket.on("orderUpdated", handleUpdatedOrder);
 
     return () => {
       socket.off("orderPlaced");
-      socket.off("orderUpdated");
+      socket.off("orderUpdated",handleUpdatedOrder);
     };
   }, []);
 
@@ -47,10 +57,10 @@ function KitchenScreen() {
         if (updatedOrder.success && updatedOrder.order) {
           setOrders((prevOrders) =>
             prevOrders.map((order) =>
-              order._id === updatedOrder.order._id ? updatedOrder.order : order
+              order._id === updated._id ? updated : order
             )
           );
-          socket.emit("orderUpdated", updatedOrder.order);
+          socket.emit("orderUpdated", updated);
         }
       })
       .catch((err) => console.error("Error updating order:", err));
