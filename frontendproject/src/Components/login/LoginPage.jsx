@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../login/loginCss.scss';
-import { io } from 'socket.io-client';
 import socket from '../../socket';
 
-let socket = null;
+// let socket = null;
 
 const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL
 
