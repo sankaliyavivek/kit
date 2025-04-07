@@ -129,6 +129,8 @@ router.put("/update-status/:orderId", async (req, res) => {
         const io = getIo();
         if (io) {
             io.emit("orderUpdated", updatedOrder); // Broadcast order update
+            // io.emit("orderUpdated", updatedOrder);
+
         }
         res.json({ success: true, message: "Order status updated", order: updatedOrder });
     } catch (error) {

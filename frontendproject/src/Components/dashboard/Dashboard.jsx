@@ -27,11 +27,8 @@ function Dashboard() {
       
       socket.on("orderPlaced", (newOrder) => {
         console.log("📢 New order received:", newOrder);
-      
-        // ✅ Ensure userId is populated before updating state
-        setOrders((prevOrders) => [newOrder, ...prevOrders]);
+        setOrders((prev) => [newOrder, ...prev]);
       });
-      
 
       const handleOrderUpdated = (updatedOrder) => {
         console.log("🔄 Order updated:", updatedOrder);
@@ -48,7 +45,7 @@ function Dashboard() {
   
     return () => {
       socket.off("orderPlaced");
-       socket.off("orderUpdated", handleOrderUpdated);
+      socket.off("orderUpdated", handleOrderUpdated);
     };
   }, []);
 
