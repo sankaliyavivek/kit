@@ -83,15 +83,7 @@ function Home() {
       return;
     }
 
-    const existingItem = cart.find((ci) => ci.foodId === item._id);
-    const updatedCart = existingItem
-      ? cart.map((ci) =>
-          ci.foodId === item._id
-            ? { ...ci, quantity: ci.quantity + 1 }
-            : ci
-        )
-      : [...cart, { foodId: item._id, name: item.name, price: item.price, quantity: 1 }];
-    setCart(updatedCart);
+   
 
     try {
       const response = await axios.post(`${BACKEND_API}/cart/add` , {
@@ -186,10 +178,15 @@ function Home() {
       });
 
       if (response.data.success) {
+        // alert(response.data.message);
+        // setIsCheckedOut(true);
+        // setCart([]); // ✅ Clear frontend cart immediately
+        // socket.emit("orderUpdated", response.data.order);
+
         alert(response.data.message);
         setIsCheckedOut(true);
-        setCart([]); // ✅ Clear frontend cart immediately
-        socket.emit("orderUpdated", response.data.order);
+        setCart([]);
+        socket.emit("orderPlaced", response.data.order); // 👈 notify kitchen
 
         // ✅ Force refetch to ensure backend cart is cleared
         setTimeout(() => fetchCart(), 500);
