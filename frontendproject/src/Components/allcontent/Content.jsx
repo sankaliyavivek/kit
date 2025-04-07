@@ -15,6 +15,24 @@ function Content() {
     const navigate = useNavigate();
 
 
+     // ✅ Auto logout when tab or window is closed
+     useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("username");
+            localStorage.removeItem("role");
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, []);
+
+
+
     const handleLogout = async () => {
         try {
             const token = localStorage.getItem("token");
