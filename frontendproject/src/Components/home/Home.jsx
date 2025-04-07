@@ -197,10 +197,12 @@ function Home() {
       {/* Cart Section - Side or Modal */}
       <div className={`side-cart ${isCartOpen ? "open" : ""}`}>
         <h2>
-          Cart
-          <span className="close-btn" onClick={() => setIsCartOpen(false)}>
+        <span className="close-btn" onClick={() => setIsCartOpen(false)}>
             &times;
           </span>
+          <br></br>
+          Cart
+          
         </h2>
 
         {cart.length === 0 ? (
@@ -238,7 +240,7 @@ function Home() {
                   >
                     X
                   </button>
-                  <br></br>
+                  
                 </div>
               </div>
             ))}
