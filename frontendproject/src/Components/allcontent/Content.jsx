@@ -1,5 +1,5 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import "../allcontent/contentCss.scss";
 import axios from 'axios';
 import useAutoLogout from "../userLogout";
