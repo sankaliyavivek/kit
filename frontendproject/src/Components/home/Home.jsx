@@ -83,6 +83,16 @@ function Home() {
       return;
     }
 
+    const existingItem = cart.find((ci) => ci.foodId === item._id);
+    const updatedCart = existingItem
+      ? cart.map((ci) =>
+          ci.foodId === item._id
+            ? { ...ci, quantity: ci.quantity + 1 }
+            : ci
+        )
+      : [...cart, { foodId: item._id, name: item.name, price: item.price, quantity: 1 }];
+    setCart(updatedCart);
+
     try {
       const response = await axios.post(`${BACKEND_API}/cart/add` , {
         userId,
@@ -101,8 +111,11 @@ function Home() {
       console.log(response.data.items)
       socket.emit("orderPlaced", response.data.order);
 
+
     } catch (error) {
       console.error("Error adding to cart:", error.response?.data || error.message);
+      alert("Something went wrong. Reverting cart.");
+      fetchCart(); // 🔄 Revert in case of error
     }
   };
 
