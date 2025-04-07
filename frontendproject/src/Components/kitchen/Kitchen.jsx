@@ -45,12 +45,12 @@ function KitchenScreen() {
       .then((res) => res.json())
       .then((updatedOrder) => {
         if (updatedOrder.success && updatedOrder.order) {
-          socket.emit("orderUpdated", result.order);
           setOrders((prevOrders) =>
             prevOrders.map((order) =>
               order._id === updatedOrder.order._id ? updatedOrder.order : order
             )
           );
+          socket.emit("orderUpdated", updatedOrder.order);
         }
       })
       .catch((err) => console.error("Error updating order:", err));
