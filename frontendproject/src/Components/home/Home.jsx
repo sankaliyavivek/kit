@@ -238,6 +238,7 @@ function Home() {
                   >
                     X
                   </button>
+                  <br></br>
                 </div>
               </div>
             ))}
