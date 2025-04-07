@@ -5,7 +5,7 @@ import '../login/loginCss.scss';
 import { io } from 'socket.io-client';
 import { initializeSocket } from '../../../../backend/socket';
 
-let socket = null;
+// let socket = null;
 
 const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL
 
