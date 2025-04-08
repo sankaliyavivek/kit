@@ -43,16 +43,20 @@ function Dashboard() {
     // });
 
     socket.on("orderPlaced", (newOrder) => {
+      console.log("📥 Dashboard received:", newOrder);
       setOrders((prevOrders) => [newOrder, ...prevOrders]);
     });
+
+
     socket.on("orderUpdated", (updatedOrder) => {
+      console.log("🔄 Dashboard updated:", updatedOrder);
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order._id === updatedOrder._id ? updatedOrder : order
         )
       );
     });
-    
+
 
 
 

@@ -15,17 +15,19 @@ function KitchenScreen() {
       .catch((err) => console.error("Error fetching orders:", err));
 
     // Listen for real-time order updates
+    
+    // Socket listeners
     socket.on("orderPlaced", (newOrder) => {
-      setOrders((prevOrders) => [newOrder, ...prevOrders]);
+      console.log("📦 New order received:", newOrder);
+      setOrders((prev) => [newOrder, ...prev]);
     });
+
     socket.on("orderUpdated", (updatedOrder) => {
-      setOrders((prevOrders) =>
-        prevOrders.map((order) =>
-          order._id === updatedOrder._id ? updatedOrder : order
-        )
+      console.log("🔄 Order updated:", updatedOrder);
+      setOrders((prev) =>
+        prev.map((order) => (order._id === updatedOrder._id ? updatedOrder : order))
       );
     });
-    
 
     return () => {
       socket.off("orderPlaced");
@@ -78,19 +80,19 @@ function KitchenScreen() {
               </thead>
               <tbody>
                 {orders.map((order) => (
-                  <tr
-                    key={order._id}
-                    style={{
-                      backgroundColor:
-                        order.status === "Pending"
-                          ? "#ffc107" // Warning color (yellow)
-                          : order.status === "Cooking"
-                          ? "#17a2b8" // Info color (blue)
-                          : order.status === "Ready"
-                          ? "#28a745" // Success color (green)
-                          : "white",
-                    }}
-                  >
+                <tr
+                key={order._id}
+                style={{
+                  backgroundColor:
+                    order.status === "Pending"
+                      ? "#ffc107"
+                      : order.status === "Cooking"
+                      ? "#17a2b8"
+                      : order.status === "Ready"
+                      ? "#28a745"
+                      : "white",
+                }}
+              >
                     <td>{order._id}</td>
                     <td>{order.userId?.name || "Unknown"}</td>
                     {/* <td>{order.cookId?.name || "Not Assigned"}</td> */}

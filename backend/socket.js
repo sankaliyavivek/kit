@@ -35,11 +35,7 @@ const initializeSocket = (server) => {
     
             console.log(`👤 User Connected: ${userId}`);
             socket.join(userId);
-    
-            // if (activeUsers.has(userId)) {
-            //     io.to(activeUsers.get(userId)).emit("forceLogout");
-            // }
-    
+
 
             if (activeUsers.has(userId)) {
                 io.to(activeUsers.get(userId)).emit("forceLogout");
