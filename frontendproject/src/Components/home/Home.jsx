@@ -153,7 +153,7 @@ function Home() {
         alert(response.data.message);
         setIsCheckedOut(true);
         setCart([]);
-        socket.emit("orderPlaced", response.data.order);
+        // socket.emit("orderPlaced", response.data.order);
         setTimeout(() => fetchCart(), 500);
       } else {
         alert("Order failed. Please try again.");
