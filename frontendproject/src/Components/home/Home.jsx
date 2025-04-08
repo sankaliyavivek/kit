@@ -20,17 +20,19 @@ function Home() {
       .then((response) => setFoodItems(response.data))
       .catch((error) => console.error("Error fetching food:", error));
 
-      socket.on("cartUpdated", (data) => {
-        if (data.userId === userId) {
-          setCart(data.items);
-        }
-      });
-    
-      socket.on("orderPlaced", (order) => {
-        console.log("🔔 New order received:", order);
-        fetchCart();
-      });
+    const handleCartUpdate = (data) => {
+      if (data.userId === userId) {
+        setCart(data.items);
+      }
+    };
 
+    const handleOrderUpdated = (order) => {
+      console.log("🔔 New order received:", order);
+      fetchCart();
+    };
+
+    socket.on("cartUpdated", handleCartUpdate);
+    socket.on("orderPlaced", handleOrderUpdated);
     return () => {
       socket.off("cartUpdated");
       socket.off("orderPlaced");
@@ -153,7 +155,7 @@ function Home() {
         alert(response.data.message);
         setIsCheckedOut(true);
         setCart([]);
-        // socket.emit("orderPlaced", response.data.order);
+        socket.emit("orderPlaced", response.data.order);
         setTimeout(() => fetchCart(), 500);
       } else {
         alert("Order failed. Please try again.");

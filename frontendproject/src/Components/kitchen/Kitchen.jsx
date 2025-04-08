@@ -15,15 +15,17 @@ function KitchenScreen() {
       .catch((err) => console.error("Error fetching orders:", err));
 
     // Listen for real-time order updates
-    
     socket.on("orderPlaced", (newOrder) => {
-      setOrders((prev) => [newOrder, ...prev]);
+      setOrders((prevOrders) => [newOrder, ...prevOrders]);
     });
 
+   
+
     socket.on("orderUpdated", (updatedOrder) => {
-      console.log("🔄 Order updated:", updatedOrder);
-      setOrders((prev) =>
-        prev.map((order) => (order._id === updatedOrder._id ? updatedOrder : order))
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === updatedOrder._id ? updatedOrder : order
+        )
       );
     });
 
@@ -78,19 +80,19 @@ function KitchenScreen() {
               </thead>
               <tbody>
                 {orders.map((order) => (
-                <tr
-                key={order._id}
-                style={{
-                  backgroundColor:
-                    order.status === "Pending"
-                      ? "#ffc107"
-                      : order.status === "Cooking"
-                      ? "#17a2b8"
-                      : order.status === "Ready"
-                      ? "#28a745"
-                      : "white",
-                }}
-              >
+                  <tr
+                    key={order._id}
+                    style={{
+                      backgroundColor:
+                        order.status === "Pending"
+                          ? "#ffc107" // Warning color (yellow)
+                          : order.status === "Cooking"
+                          ? "#17a2b8" // Info color (blue)
+                          : order.status === "Ready"
+                          ? "#28a745" // Success color (green)
+                          : "white",
+                    }}
+                  >
                     <td>{order._id}</td>
                     <td>{order.userId?.name || "Unknown"}</td>
                     {/* <td>{order.cookId?.name || "Not Assigned"}</td> */}
