@@ -31,7 +31,6 @@ function Home() {
         fetchCart();
       });
 
-  
     return () => {
       socket.off("cartUpdated");
       socket.off("orderPlaced");
@@ -78,6 +77,7 @@ function Home() {
       );
 
       setCart(response.data.items);
+      socket.emit("orderPlaced", response.data.order);
     } catch (error) {
       console.error("Error adding to cart:", error);
       alert("Something went wrong. Reverting cart.");
