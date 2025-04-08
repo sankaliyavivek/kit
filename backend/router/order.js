@@ -39,7 +39,9 @@ router.post("/place-order", async (req, res) => {
             io.emit("orderPlaced", populatedOrder); // ✅ Send the full populated order
         }
 
-        res.status(201).json({ success: true, message: "Order placed successfully!", order: newOrder });
+        // res.status(201).json({ success: true, message: "Order placed successfully!", order: newOrder });
+        res.status(201).json({ success: true, message: "Order placed successfully!", order: populatedOrder });
+
     } catch (error) {
         console.error("Error placing order:", error);
         res.status(500).json({ message: "Internal Server Error", error: error.message });

@@ -1,21 +1,25 @@
 
-import { io } from "socket.io-client";
+  import { io } from "socket.io-client";
 
-const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-const SOCKET_API = import.meta.env.VITE_SOCKET_API_URL;
-const socket = io(SOCKET_API, {
-  withCredentials: true,
-  transports: ["websocket", "polling"],
-  // secure: true,
-  auth: { token },  // ✅ Use auth instead of extraHeaders
-});
+  const SOCKET_API = import.meta.env.VITE_SOCKET_API_URL;
+  const socket = io(SOCKET_API, {
+    withCredentials: true,
+    transports: ["websocket", "polling"],
+    // secure: true,
+    auth: { token },  // ✅ Use auth instead of extraHeaders
+  });
 
 
-socket.on("reconnect_attempt", () => {
-  const newToken = localStorage.getItem("token");
-  socket.auth.token = newToken;
-});
+  socket.on("reconnect_attempt", () => {
+    const newToken = localStorage.getItem("token");
+    if (newToken) {
+      socket.auth.token = newToken;
+    } else {
+      socket.disconnect(); // Or trigger a logout
+    }
+  });
 
-export default socket;
+  export default socket;
 
