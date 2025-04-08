@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../login/loginCss.scss';
-import socket from '../../socket';
+import socket, { connectSocket } from '../../socket';
 
 // let socket = null;
 
@@ -49,11 +49,11 @@ function LoginPage() {
                 //         token: response.data.token, // Pass token in headers
                 //     },
                 // });
+                connectSocket();
 
-                const socketInit = socket;
 
-                socketInit.emit("userLoggedIn", response.data.userId);
-
+                  // Emit login event after successful authentication
+                  socket.emit("userLoggedIn", response.data.userId);
                 // Redirect based on role
                 if (response.data.role === "kitchen-staff") {
                     navigate("/kitchen");  // Redirect to the kitchen page for kitchen-staff
@@ -65,8 +65,7 @@ function LoginPage() {
                     navigate("/login");
                 }
 
-                // Emit login event after successful authentication
-                socket.emit("userLoggedIn", response.data.userId);
+              
             }
         } catch (error) {
             console.error("Login Error:", error.response?.data?.message || error.message);

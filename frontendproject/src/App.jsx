@@ -16,24 +16,20 @@ import socket from './socket';
 
 function App() {
 
-  useEffect(()=>{
-
-      const get = socket;
+  useEffect(() => {
     socket.on("connect", () => {
-      console.log("✅ Connected to Socket.IO server!");
-  });
-
-  socket.on('disconnect',()=>{
-    console.log('Disconnected from server')
-  })
-
-
-  return ()=>{
-    socket.off('connect')
-    socket.off('disconnect')
-
-  }
-  })
+      console.log("✅ Socket connected");
+    });
+  
+    socket.on("disconnect", () => {
+      console.log("❌ Socket disconnected");
+    });
+  
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+    };
+  }, []);
   return (
     <div className="layout-fixed sidebar-expand-lg">
         <Routes>
