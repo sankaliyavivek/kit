@@ -78,8 +78,6 @@ function Home() {
       );
 
       setCart(response.data.items);
-      socket.emit("orderPlaced", response.data.order);
-      setTimeout(() => fetchCart(), 100);
     } catch (error) {
       console.error("Error adding to cart:", error);
       alert("Something went wrong. Reverting cart.");
