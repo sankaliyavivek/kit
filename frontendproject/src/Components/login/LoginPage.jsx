@@ -49,7 +49,7 @@ function LoginPage() {
                 //         token: response.data.token, // Pass token in headers
                 //     },
                 // });
-                setTimeout(() => {
+                
                     connectSocket();
 
                     socket.emit("userLoggedIn", response.data.userId);
@@ -62,7 +62,7 @@ function LoginPage() {
                     } else {
                         navigate("/login");
                     }
-                }, 100); // 100ms delay to ensure token is stored before connectSocket
+               // 100ms delay to ensure token is stored before connectSocket
 
 
             }

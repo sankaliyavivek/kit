@@ -9,7 +9,7 @@ import Content from './Components/allcontent/Content';
 import Home from './Components/home/Home';
 import ForgotPassword from './Components/forgotpassword/ForgotPassword';
 import OrderHistory from './Components/orderhistory/OrderHistory';
-import socket from './socket';
+import socket, { connectSocket } from './socket';
 
 
 
@@ -17,6 +17,12 @@ import socket from './socket';
 function App() {
 
   useEffect(() => {
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      connectSocket();
+    }
+
     socket.on("connect", () => {
       console.log("✅ Socket connected");
     });
