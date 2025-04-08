@@ -34,7 +34,9 @@ router.post("/place-order", async (req, res) => {
         // ✅ Emit event for real-time updates (ensure `io` is correctly initialized)
         const io = getIo();
         if (io) {
-            const populatedOrder = await newOrder.populate("userId", "name"); // ✅ Populate customer name
+            const populatedOrder = await Order.findById(newOrder._id)
+            .populate("user", "name")
+            .populate("items.food", "name price"); // ✅ Populate customer name
             console.log("🚀 Broadcasting new order with user:", populatedOrder);
             io.emit("orderPlaced", populatedOrder); // ✅ Send the full populated order
         }
