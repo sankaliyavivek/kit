@@ -14,11 +14,7 @@
 
   socket.on("reconnect_attempt", () => {
     const newToken = localStorage.getItem("token");
-    if (newToken) {
-      socket.auth.token = newToken;
-    } else {
-      socket.disconnect(); // Or trigger a logout
-    }
+    socket.auth.token = newToken;
   });
 
   export default socket;
