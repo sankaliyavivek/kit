@@ -35,7 +35,11 @@ const initializeSocket = (server) => {
     
             console.log(`👤 User Connected: ${userId}`);
             socket.join(userId);
-
+    
+            // if (activeUsers.has(userId)) {
+            //     io.to(activeUsers.get(userId)).emit("forceLogout");
+            // }
+    
 
             if (activeUsers.has(userId)) {
                 io.to(activeUsers.get(userId)).emit("forceLogout");
@@ -55,6 +59,7 @@ const initializeSocket = (server) => {
             socket.on("orderPlaced", (order) => {
                 io.emit("orderPlaced", order);
               })
+              
             socket.on("disconnect", () => {
                 console.log(`❌ User Disconnected: ${userId}`);
                 activeUsers.delete(userId);
