@@ -16,8 +16,12 @@ function KitchenScreen() {
 
     // Listen for real-time order updates
     
-    // Socket listeners
     socket.on("orderPlaced", (newOrder) => {
+      if (!newOrder || !newOrder.status) {
+        console.warn("❌ Invalid order received:", newOrder);
+        return;
+      }
+    
       console.log("📦 New order received:", newOrder);
       setOrders((prev) => [newOrder, ...prev]);
     });
