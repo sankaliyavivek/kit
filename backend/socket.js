@@ -56,6 +56,9 @@ const initializeSocket = (server) => {
                 io.emit("orderUpdated", order);  // Broadcast to all users
             });
             
+            socket.on("orderPlaced", (order) => {
+                io.emit("orderPlaced", order);
+              })
             socket.on("disconnect", () => {
                 console.log(`❌ User Disconnected: ${userId}`);
                 activeUsers.delete(userId);
