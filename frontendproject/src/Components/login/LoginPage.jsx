@@ -49,23 +49,22 @@ function LoginPage() {
                 //         token: response.data.token, // Pass token in headers
                 //     },
                 // });
-                connectSocket();
+                setTimeout(() => {
+                    connectSocket();
+
+                    socket.emit("userLoggedIn", response.data.userId);
+
+                    // Redirect based on role
+                    if (response.data.role === "kitchen-staff") {
+                        navigate("/kitchen");
+                    } else if (response.data.role === "user") {
+                        navigate("/home");
+                    } else {
+                        navigate("/login");
+                    }
+                }, 100); // 100ms delay to ensure token is stored before connectSocket
 
 
-                  // Emit login event after successful authentication
-                  socket.emit("userLoggedIn", response.data.userId);
-                // Redirect based on role
-                if (response.data.role === "kitchen-staff") {
-                    navigate("/kitchen");  // Redirect to the kitchen page for kitchen-staff
-                }
-                else if (response.data.role === "user") {
-                    navigate("/home");  // Redirect to the home page for user role
-                }
-                else {
-                    navigate("/login");
-                }
-
-              
             }
         } catch (error) {
             console.error("Login Error:", error.response?.data?.message || error.message);
