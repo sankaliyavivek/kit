@@ -4,7 +4,7 @@ import axios from "axios";
 import "../dashboard/dashboardCss.scss";
 import socket from "../../socket";
 
-const BACKEND_API=import.meta.env.VITE_BACKEND_API_URL
+const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL
 
 function Dashboard() {
   const [orders, setOrders] = useState([]);
@@ -22,27 +22,40 @@ function Dashboard() {
     fetchOrders();
 
 
-      console.log("Socket instance:", socket);
+    console.log("Socket instance:", socket);
 
-      
-      socket.on("orderPlaced", (newOrder) => {
-        console.log("📢 New order received:", newOrder);
-      
-        // ✅ Ensure userId is populated before updating state
-        setOrders((prevOrders) => [newOrder, ...prevOrders]);
-      });
-      
+
+    //     socket.on("orderPlaced", (newOrder) => {
+    //       console.log("📢 New order received:", newOrder);
+
+    //       // ✅ Ensure userId is populated before updating state
+    //       setOrders((prevOrders) => [newOrder, ...prevOrders]);
+    //     });
+
+
+    //   socket.on("orderUpdated", (updatedOrder) => {
+    //     console.log("🔄 Order updated:", updatedOrder);
+    //     setOrders((prevOrders) =>
+    //         prevOrders.map((order) =>
+    //             order._id === updatedOrder._id ? updatedOrder : order
+    //         )
+    //     );
+    // });
+
+    socket.on("orderPlaced", (newOrder) => {
+      setOrders((prev) => [newOrder, ...prev]);
+    });
 
     socket.on("orderUpdated", (updatedOrder) => {
-      console.log("🔄 Order updated:", updatedOrder);
-      setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-              order._id === updatedOrder._id ? updatedOrder : order
-          )
+      setOrders((prev) =>
+        prev.map((order) =>
+          order._id === updatedOrder._id ? updatedOrder : order
+        )
       );
-  });
+    });
 
- 
+
+
     return () => {
       socket.off("orderPlaced");
       socket.off("orderUpdated");
@@ -135,18 +148,18 @@ function Dashboard() {
                           : ""
                   }
                 >
-                 <td>{order._id ? order._id.slice(-6).toUpperCase() : "N/A"}</td>
+                  <td>{order._id ? order._id.slice(-6).toUpperCase() : "N/A"}</td>
 
                   <td>{order.userId?.name || "Unknown"}</td>
                   <td>
                     <span
                       className={`badge ${order.status === "Completed"
-                          ? "bg-success"
-                          : order.status === "Pending"
-                            ? "bg-danger"
-                            : order.status === "Cooking"
-                              ? "bg-warning"
-                              : "bg-secondary"
+                        ? "bg-success"
+                        : order.status === "Pending"
+                          ? "bg-danger"
+                          : order.status === "Cooking"
+                            ? "bg-warning"
+                            : "bg-secondary"
                         }`}
                     >
                       {order.status}

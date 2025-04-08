@@ -36,7 +36,8 @@ router.post("/place-order", async (req, res) => {
         if (io) {
             const populatedOrder = await newOrder.populate("userId", "name"); // ✅ Populate customer name
             console.log("🚀 Broadcasting new order with user:", populatedOrder);
-            io.emit("orderPlaced", populatedOrder); // ✅ Send the full populated order
+            io.emit("orderPlaced", populatedOrder);
+            // ✅ Send the full populated order
         }
 
         res.status(201).json({ success: true, message: "Order placed successfully!", order: newOrder });
