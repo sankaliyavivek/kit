@@ -16,12 +16,11 @@ function KitchenScreen() {
 
     // Listen for real-time order updates
     socket.on("orderPlaced", (newOrder) => {
-      setOrders((prev) => [newOrder, ...prev]);
+      setOrders((prevOrders) => [newOrder, ...prevOrders]);
     });
-    
     socket.on("orderUpdated", (updatedOrder) => {
-      setOrders((prev) =>
-        prev.map((order) =>
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
           order._id === updatedOrder._id ? updatedOrder : order
         )
       );
