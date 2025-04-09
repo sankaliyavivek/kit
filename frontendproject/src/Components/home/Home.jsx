@@ -151,7 +151,7 @@ function Home() {
       );
 
       if (response.data.success) {
-        setIsCheckedOut(true);
+        setIsCheckedOut(false);
         setCart([]);
         // socket.emit("orderPlaced", response.data.order);
         alert(response.data.message);
